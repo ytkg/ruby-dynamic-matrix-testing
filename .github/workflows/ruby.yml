@@ -9,6 +9,11 @@ jobs:
     steps:
       - id: set-matrix
         run: |
+          jq -h
+          git clone https://github.com/sstephenson/ruby-build.git
+          cd ruby-build
+          ./install.sh
+          ruby-build --version
           echo '::set-output name=matrix::["2.6", "2.7"]'
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
