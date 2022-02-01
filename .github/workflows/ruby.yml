@@ -9,7 +9,6 @@ jobs:
     steps:
       - id: set-matrix
         run: |
-          jq -h
           git clone https://github.com/sstephenson/ruby-build.git
           ./ruby-build/bin/ruby-build --definitions |grep -vE 'dev|preview|rc|^[a-z]' | awk '{print substr($0, 1, 3)}' | uniq | awk '{ if ($0 >= 2.5) print $0 }' | sed -e 's/$/"/g; s/^/"/g' | jq -sc
           echo '::set-output name=matrix::["2.6", "2.7"]'
