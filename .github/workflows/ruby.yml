@@ -7,8 +7,8 @@ jobs:
     name: Get versions
     runs-on: ubuntu-latest
     steps:
-      - name: Set Matrix
       - id: set-matrix
+        name: Set Matrix
         run: |
           versions=$(
             curl -s https://raw.githubusercontent.com/ruby/setup-ruby/master/ruby-builder-versions.json |
