@@ -14,7 +14,7 @@ jobs:
             curl -s https://raw.githubusercontent.com/ruby/setup-ruby/master/ruby-builder-versions.json |
               jq -c '[.ruby[]
                 | select(test("preview|rc|debug") | not)
-                | if test("^[0-9]") then .[0:3] else . end
+                | if test("^[a-z]") then . else .[0:3] end
                 | select(. >= "2.5")]
                 | unique'
             )
