@@ -9,15 +9,14 @@ jobs:
     steps:
       - id: set-matrix
         run: |
-          git clone https://github.com/sstephenson/ruby-build.git
-          # versions=$(./ruby-build/bin/ruby-build --definitions |grep -vE 'dev|preview|rc|^[a-z]' | awk '{print substr($0, 1, 3)}' | uniq | awk '{ if ($0 >= 2.3) print $0 }' | sed -e 's/$/"/g; s/^/"/g' | jq -sc)
-          # versions=$(./ruby-build/bin/ruby-build --definitions |grep -vE 'dev|preview|rc|^[a-z]' | awk '{print substr($0, 1, 3)}' | uniq | sed -e 's/$/"/g; s/^/"/g' | jq -sc)
-          versions=$(curl -s https://raw.githubusercontent.com/ruby/setup-ruby/master/ruby-builder-versions.json |
-            jq -c '[.ruby[]
-              | select(test("preview|rc|debug") | not)
-              | if test("^[0-9]") then .[0:3] else . end
-              | select(. >= "2.5")]
-              | unique')
+          versions=$(
+            curl -s https://raw.githubusercontent.com/ruby/setup-ruby/master/ruby-builder-versions.json |
+              jq -c '[.ruby[]
+                | select(test("preview|rc|debug") | not)
+                | if test("^[0-9]") then .[0:3] else . end
+                | select(. >= "2.5")]
+                | unique'
+            )
           echo "::set-output name=matrix::${versions}"
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
